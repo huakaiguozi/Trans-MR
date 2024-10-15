@@ -42,7 +42,6 @@ ratio_pleiotropy <- c(1.0)
 # ratio_inter_list <- c(0.6)
 
 ite_times <- 5   #预计10.00结束（21.55开始）
-date_mark <- format(Sys.time(), "%Y-%m-%d")
 #----Twosamplemr包方法
 
 # 共11种方法

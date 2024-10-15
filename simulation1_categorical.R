@@ -4,8 +4,11 @@ setwd("C:/Users/Administrator/Desktop/WY/R_codes/Trans_MR_project")
 ver <- 'v1'  #版本
 date_mark <- format(Sys.time(), "%Y-%m-%d")
 #===============================================================================结果存放位置
-path_output_plots <- 'output/categorical/plots'
-path_output_tables <- 'output/categorical/tables'
+path_output_plots <- paste0('output/categorical/plots','/',date_mark,'-',ver)
+path_output_tables <- paste0('output/categorical/tables','/',date_mark,'-',ver)
+
+dir.create(path_output_plots,recursive = TRUE)
+dir.create(path_output_tables,recursive = TRUE)
 #===============================================================================执行顺序
 source('src/requirements.R')
 source('src/data_generating_functions_categorical.R')

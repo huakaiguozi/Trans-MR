@@ -41,8 +41,9 @@ ratio_pleiotropy <- c(1.0)
 # heter_level_list <- c(0.3)
 # ratio_inter_list <- c(0.6)
 
-ite_times <- 1000   #预计10.00结束（21.55开始）
-date_mark <- format(Sys.time(), "%Y-%m-%d")
+ite_times <- 5   #预计10.00结束（21.55开始）
+#date_mark <- format(Sys.time(), "%Y-%m-%d")
+
 #----Twosamplemr包方法
 
 # 共11种方法
@@ -179,6 +180,8 @@ for(i_n0 in 1:len_n0){
                   n_0 <- n_0_list[i_n0]
                   n_1 <- n_0
                   
+                  n_divides <- floor(n_0/600)
+                  
                   heter_level <- heter_level_list[i_heter]
                   ratio_inter <- ratio_inter_list[i_inter]
                   gamma_multi <- gamma_list[i_gamma]
@@ -253,7 +256,7 @@ for(i_n0 in 1:len_n0){
                     {
                       #for(ite_k in 1:ite_times){
                       tryCatch({
-                        indicator_print <- 0
+                        indicator_print <- 1
                         
                         seed <- ite_k * 100
                         set.seed(seed)
