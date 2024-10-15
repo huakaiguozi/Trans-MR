@@ -14,7 +14,7 @@ source('src/requirements.R')
 source('src/data_generating_functions_categorical.R')
 source('src/computing_functions_categorical.R')
 source('src/computation_categorical.R')
-source('src/drawing.R')
+source('src/drawing_categorical.R')
 
 #-----------------------
 time_end <- Sys.time()

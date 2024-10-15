@@ -1,7 +1,7 @@
 time_start <- Sys.time()
 #---
 setwd("C:/Users/Administrator/Desktop/WY/R_codes/Trans_MR_project")
-ver <- 'v1'  #版本
+ver <- 'v2'  #版本
 date_mark <- format(Sys.time(), "%Y-%m-%d")
 #===============================================================================结果存放位置
 path_output_plots <- paste0('output/continuous/plots','/',date_mark,'-',ver)
@@ -14,7 +14,7 @@ source('src/requirements.R')
 source('src/data_generating_functions_continuous.R')
 source('src/computing_functions_continuous.R')
 source('src/computation_continuous.R')
-source('src/drawing.R')
+source('src/drawing_continuous.R')
 
 #-----------------------
 time_end <- Sys.time()

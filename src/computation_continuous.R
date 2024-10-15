@@ -180,7 +180,7 @@ for(i_n0 in 1:len_n0){
                   n_0 <- n_0_list[i_n0]
                   n_1 <- n_0
                   
-                  n_divides <- floor(n_0/600)
+                  n_divides <- floor(log2(n_0/400))
                   
                   heter_level <- heter_level_list[i_heter]
                   ratio_inter <- ratio_inter_list[i_inter]
@@ -251,12 +251,12 @@ for(i_n0 in 1:len_n0){
                   param_df <- cbind(rep(c(1:ite_times),each=len_methods),param_df)
                   param_df <- cbind(param_df,rep(method_names_ordered,ite_times))
                   #----------------------------
-                  beta_hat_ite <- foreach(ite_k=1:ite_times, .export =c('heter_level', 'data_generate_Y', 'data_generate_X', 'Twosamle_package', 'Trans_OLS2', 'IPW2', 'AIPW2')
+                  beta_hat_ite <- foreach(ite_k=1:ite_times, .export =c('heter_level')
                                           , .packages = c('fixest','TwoSampleMR','glmnet','mr.raps','penalized','ridge'))%dopar%
                     {
                       #for(ite_k in 1:ite_times){
                       tryCatch({
-                        indicator_print <- 1
+                        indicator_print <- 0
                         
                         seed <- ite_k * 100
                         set.seed(seed)

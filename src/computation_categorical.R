@@ -247,7 +247,7 @@ for(i_n0 in 1:len_n0){
                   param_df <- cbind(rep(c(1:ite_times),each=len_methods),param_df)
                   param_df <- cbind(param_df,rep(method_names_ordered,ite_times))
                   #----------------------------
-                  beta_hat_ite <- foreach(ite_k=1:ite_times, .export =c('heter_level', 'data_generate_Y', 'data_generate_X', 'Twosamle_package', 'Trans_OLS2', 'IPW2', 'AIPW2')
+                  beta_hat_ite <- foreach(ite_k=1:ite_times, .export =c('heter_level')
                                           , .packages = c('fixest','TwoSampleMR','glmnet','mr.raps','penalized','ridge'))%dopar%
                     {
                       #for(ite_k in 1:ite_times){
