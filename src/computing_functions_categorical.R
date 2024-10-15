@@ -32,6 +32,35 @@ MR_lasso<-function(betaYG,betaXG,sebetaYG){
   
 }
 
+Twosamle_package3 <- function(p_Z,p_C,data_0,data_1){
+  n_0 <- dim(data_0$Z)[1]
+  n_1 <- dim(data_1$Z)[1]
+  exp_data <- data.frame(id.exposure = rep(1,p_Z),exposure=rep("x",p_Z),SNP=c(1:p_Z),beta.exposure=data_1$beta,se.exposure=data_1$sd,
+                         effect_allele.exposure=rep('A',p_Z),other_allele.exposure=rep('T',p_Z),
+                         eaf.exposure=data_1$eaf,samplesize.exposure=rep(n_1,p_Z))
+  out_data <- data.frame(id.outcome = rep(2,p_Z),outcome=rep("y",p_Z),SNP=c(1:p_Z),beta.outcome=data_0$beta,se.outcome=data_0$sd,
+                         effect_allele.outcome=rep('A',p_Z),other_allele.outcome=rep('T',p_Z),
+                         eaf.outcome=data_0$eaf,samplesize.outcome=rep(n_0,p_Z))
+  
+  data_merge <- harmonise_data(exposure_dat = exp_data,outcome_dat = out_data,action=2) 
+  #------------
+  data_merge2 <- MendelianRandomization::mr_input(bx=data_merge$beta.exposure,bxse = data_merge$se.exposure
+                                                  ,by=data_merge$beta.outcome,byse = data_merge$se.outcome)
+  num_ivs <- length(data_merge2@snps)
+  if(num_ivs<3){
+    res <- MendelianRandomization::mr_ivw(data_merge2)
+    beta <- res@Estimate
+    se <- res@StdError
+  }else{
+    res <- MendelianRandomization::mr_egger(data_merge2)
+    beta <- res@Estimate
+    se <- res@StdError.Est
+  }
+  
+  return_list <- list(beta=beta,se=se)
+  return(return_list)
+}
+
 Twosamle_package2 <- function(p_Z,p_C,data_0,data_1){
   n_0 <- dim(data_0$Z)[1]
   n_1 <- dim(data_1$Z)[1]

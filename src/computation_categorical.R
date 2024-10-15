@@ -96,6 +96,7 @@ k_min <- 1
 k_pz <- 1
 p_Z_fix <- p_Z_list[k_pz]
 k_gamma <- 1
+k_gamma2 <-length(gamma_list)
 k_alpha <- 1
 k_alpha2 <- 2
 k_heter <- len_heter
@@ -135,7 +136,7 @@ for(i_n0 in 1:len_n0){for (i_n1 in 1:len_n1){for(i_gamma in 1:len_gamma){for (i_
   # 工具个数：p_Z
   condition5 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & inter_strength==inter_strength_list[k_inter_strength] & alpha_modifier == alpha_list[k_alpha] & eta_modifier == eta_list[k_eta])
   # 修饰强度
-  condition6 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & p_Z==p_Z_list[k_pz] & alpha_modifier == alpha_list[k_alpha2] & eta_modifier == eta_list[k_eta])
+  condition6 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma2] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & p_Z==p_Z_list[k_pz] & alpha_modifier == alpha_list[k_alpha2] & eta_modifier == eta_list[k_eta])
   # eta
   condition7 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & p_Z==p_Z_list[k_pz] & inter_strength==inter_strength_list[k_inter_strength] & alpha_modifier == alpha_list[k_alpha] )
   # alpha
@@ -223,7 +224,7 @@ for(i_n0 in 1:len_n0){
                   condition3 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma]  & ratio_inter == ratio_inter_list[k_inter] & p_Z==p_Z_list[k_pz] & inter_strength==inter_strength_list[k_inter_strength] & alpha_modifier == alpha_list[k_alpha] & eta_modifier == eta_list[k_eta])
                   condition4 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma] & n_0 == n_0_list[k_n0] & p_Z==p_Z_list[k_pz] & inter_strength==inter_strength_list[k_inter_strength] & alpha_modifier == alpha_list[k_alpha] & eta_modifier == eta_list[k_eta])
                   condition5 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & inter_strength==inter_strength_list[k_inter_strength] & alpha_modifier == alpha_list[k_alpha] & eta_modifier == eta_list[k_eta])
-                  condition6 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & p_Z==p_Z_list[k_pz] & alpha_modifier == alpha_list[k_alpha2] & eta_modifier == eta_list[k_eta])
+                  condition6 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma2] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & p_Z==p_Z_list[k_pz] & alpha_modifier == alpha_list[k_alpha2] & eta_modifier == eta_list[k_eta])
                   condition7 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & p_Z==p_Z_list[k_pz] & inter_strength==inter_strength_list[k_inter_strength] & alpha_modifier == alpha_list[k_alpha] )
                   condition8 <- (heter_level == heter_level_list[k_heter] & gamma_multi == gamma_list[k_gamma] & n_0 == n_0_list[k_n0] & ratio_inter == ratio_inter_list[k_inter] & p_Z==p_Z_list[k_pz] & inter_strength==inter_strength_list[k_inter_strength] & eta_modifier == eta_list[k_eta])
                   
@@ -304,9 +305,11 @@ for(i_n0 in 1:len_n0){
                           }
                         }
                         #----------------------------
-                        #C <- rbind(C_0,C_1)
-                        
                         #Twosamle_package2(p_Z,p_C,data_0,data_1)
+                        #===============================================================Twosample-MR包     1
+                        beta_hat_1_list <- Twosamle_package(p_Z=p_Z,p_C=p_C,data_0=data_0,data_1=data_1)
+                        beta_hat_1 <- beta_hat_1_list$beta
+                        #===============================================================Trans-MR
                         #----------------------------看是否存在修饰作用的代码
                         modifier_matrix <- matrix(nrow = p_Z,ncol = p_C)
                         for(k in 1:p_Z){
@@ -337,126 +340,265 @@ for(i_n0 in 1:len_n0){
                             }
                           }
                         }
-                        # chow_res <- strucchange::Fstats(X~Z.1+Z.2+Z.3,data = data_chow_test,from = 5996)
-                        # sctest(chow_res)
-                        
-                        
                         #----------------------------
-                        #----------------------------
-                        b_Y_list2 <- rep(0,p_Z)
-                        sd_Y_list2 <- rep(0,p_Z)
-                        b_Y_list3 <- rep(0,p_Z)
-                        sd_Y_list3 <- rep(0,p_Z)
-                        b_Y_list4 <- rep(0,p_Z)
-                        sd_Y_list4 <- rep(0,p_Z)
-                        #===============================================================Twosample-MR包     1
-                        #-------------------
-                        beta_hat_1_list <- Twosamle_package(p_Z=p_Z,p_C=p_C,data_0=data_0,data_1=data_1)
-                        beta_hat_1 <- beta_hat_1_list$b
+                        b_Y_list2 <- c()
+                        sd_Y_list2 <- c()
+                        b_Y_list3 <- c()
+                        sd_Y_list3 <- c()
+                        b_Y_list4 <- c()
+                        sd_Y_list4 <- c()
                         
-                        #===============================================================Trans_OR
-                        X_hat_matrix_OR <- Trans_OLS2(Z_0=Z_0,Z_1=Z_1,C_0=C_0,C_1=C_1,X_1=X_1)$X_hat_matrix
-                        #===============================================================Trans_OR0         21
-                        for (i in 1:p_Z) {  
+                        indice_modify <- rowSums(modifier_matrix) > 0
+                        indice_notmodify <- !indice_modify
+                        p_Zm <- sum(indice_modify)
+                        p_Znm <- sum(indice_notmodify)
+                        
+                        if(p_Znm>0){
                           
-                          model2 <- lm(Y_0~X_hat_matrix_OR[,i] + C_0+Z_0[,i])  #有Z
-                          summary_model2 <- summary(model2)
-                          pval_model2 <- summary_model2$coefficients[,4]
-                          Z_pval <- pval_model2[length(pval_model2)]
+                          data3_0 <- data_0
+                          data3_1 <- data_1
                           
-                          pearson_r <- abs(cor(X_hat_matrix_OR[,i],Z_0[,i]))
+                          data3_0$Z <- data3_0$Z[,indice_notmodify]
+                          data3_0$beta <- data3_0$beta[indice_notmodify]
+                          data3_0$sd <- data3_0$sd[indice_notmodify]
+                          data3_0$eaf <- data3_0$eaf[indice_notmodify]
+                          data3_0$R2 <- data3_0$R2[indice_notmodify]
+                          data3_0$F_stats <- data3_0$F_stats[indice_notmodify]
                           
-                          # vif_df2 <- car::vif(model2)
-                          # vif_2_vec <- vif_df2[,1]
-                          if(indicator_print == 1){
-                            print(paste0(Z_pval,', ',pearson_r))
-                          }
-                          #print(vif_2_vec)
+                          data3_1$Z <- data3_1$Z[,indice_notmodify]
+                          data3_1$beta <- data3_1$beta[indice_notmodify]
+                          data3_1$sd <- data3_1$sd[indice_notmodify]
+                          data3_1$eaf <- data3_1$eaf[indice_notmodify]
+                          data3_1$R2 <- data3_1$R2[indice_notmodify]
+                          data3_1$F_stats <- data3_1$F_stats[indice_notmodify]
                           
-                          if( (Z_pval < 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
-                            model_ridge2 <- ridge::linearRidge(Y_0~X_hat_matrix_OR[,i] + C_0+Z_0[,i])
-                            summary_ridge2 <- summary(model_ridge2)
-                            summary_chosen2 <- summary_ridge2$summaries[[summary_ridge2$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
-                            coefficients_chosen2 <- summary_chosen2$coefficients   # 从 chosen_summary 提取 coefficients
-                            coef_chosen2 <- coefficients_chosen2[,1]
-                            se_chosen2 <- coefficients_chosen2[,3][-1]/model_ridge2$scales
+                          beta_hat_res <- Twosamle_package3(p_Z=sum(indice_notmodify),p_C=p_C,data_0=data3_0,data_1=data3_1)
+                          beta_hat_degrade <- beta_hat_res$beta
+                          se_degrade <- beta_hat_res$se
+                          #----------------------------------
+                          if(p_Zm == 0){
+                            beta_hat_2 <- beta_hat_degrade
+                            beta_hat_3 <- beta_hat_degrade
+                            beta_hat_4 <- beta_hat_degrade
+                          }else{
+                            Z_0m <- Z_0[,indice_modify]
+                            Z_1m <- Z_1[,indice_modify]
+                            if(sum(indice_modify) == 1){
+                              Z_0m <- matrix(Z_0m,ncol = 1)
+                              Z_1m <- matrix(Z_1m,ncol = 1)
+                            }
+                            #===============================================================迁移估计量
+                            #Trans_OR
+                            X_hat_matrix_OR <- Trans_OLS2(Z_0=Z_0m,Z_1=Z_1m,C_0=C_0,C_1=C_1,X_1=X_1)$X_hat_matrix
+                            #Trans_IPW
+                            X_hat_matrix_IPW <- IPW2(Z_0=Z_0m,Z_1=Z_1m,C_0=C_0,C_1=C_1,X_1=X_1)$X_hat_matrix
+                            #Trans_AIPW
+                            X_hat_matrix_AIPW <- AIPW2(Z_0=Z_0m,Z_1=Z_1m,C_0=C_0,C_1=C_1,X_1=X_1
+                                                       )$X_hat_matrix
+                            #---------------------------------------------------------------Trans_OR0         21
+                            for (i in 1:p_Zm) {  
+                              model2 <- lm(Y_0~X_hat_matrix_OR[,i] + C_0 + Z_0m[,i])  #有Z
+                              summary_model2 <- summary(model2)
+                              pval_model2 <- summary_model2$coefficients[,4]
+                              Z_pval <- pval_model2[length(pval_model2)]
+                              
+                              pearson_r <- abs(cor(X_hat_matrix_OR[,i],Z_0m[,i]))
+                              if(indicator_print == 1){
+                                print(paste0(Z_pval,', ',pearson_r))
+                              }
+                              
+                              if( (Z_pval <= 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
+                                model_ridge2 <- ridge::linearRidge(Y_0~X_hat_matrix_OR[,i] + C_0+Z_0m[,i])
+                                summary_ridge2 <- summary(model_ridge2)
+                                summary_chosen2 <- summary_ridge2$summaries[[summary_ridge2$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
+                                coefficients_chosen2 <- summary_chosen2$coefficients   # 从 chosen_summary 提取 coefficients
+                                coef_chosen2 <- coefficients_chosen2[,1]
+                                se_chosen2 <- coefficients_chosen2[,3][-1]/model_ridge2$scales
+                                
+                                b_Y_list2[i] <-coef_chosen2[2]
+                                sd_Y_list2[i] <- se_chosen2[1]
+                              }else{   #无水平多效性：线性回归
+                                model2_1 <- lm(Y_0~X_hat_matrix_OR[,i] + C_0)  #无Z
+                                b_Y_list2[i] <- model2_1$coefficients[2]
+                                sd_Y_list2[i] <- summary(model2_1)$coefficients[,'Std. Error'][2]
+                              }
+                              
+                            }
+                            b_Y_list2 <- c(b_Y_list2, beta_hat_degrade)
+                            sd_Y_list2 <- c(sd_Y_list2, se_degrade)
                             
-                            b_Y_list2[i] <-coef_chosen2[2]
-                            sd_Y_list2[i] <- se_chosen2[1]
-                          }else{   #无水平多效性：线性回归
-                            model2_1 <- lm(Y_0~X_hat_matrix_OR[,i] + C_0)  #无Z
-                            b_Y_list2[i] <- model2_1$coefficients[2]
-                            sd_Y_list2[i] <- summary(model2_1)$coefficients[,'Std. Error'][2]
-                          }
-                          
-                        }
-                        # cor(X_hat_matrix_OR[,1],Z_0[,1])
-                        sd_Y_list2_inv <- 1/sd_Y_list2 
-                        beta_hat_2 <- sum(sd_Y_list2_inv^2 * b_Y_list2)/sum(sd_Y_list2_inv^2)
-                        #===============================================================Trans_IPW
-                        X_hat_matrix_IPW <- IPW2(Z_0=Z_0,Z_1=Z_1,C_0=C_0,C_1=C_1,X_1=X_1)$X_hat_matrix
-                        #===============================================================Trans_IPW0          31
-                        for (i in 1:p_Z) {
-                          
-                          model3 <- lm(Y_0~X_hat_matrix_IPW[,i] + C_0+Z_0[,i])  #有Z
-                          summary_model3 <- summary(model3)
-                          pval_model3 <- summary_model3$coefficients[,4]
-                          Z_pval <- pval_model3[length(pval_model3)]
-                          
-                          pearson_r <- cor(X_hat_matrix_IPW[,i],Z_0[,i])
-                          if(indicator_print == 1){
-                            print(paste0(Z_pval,', ',pearson_r))
-                          }
-                          if( (Z_pval < 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
-                            model_ridge3 <- ridge::linearRidge(Y_0~X_hat_matrix_IPW[,i] + C_0+Z_0[,i])
-                            summary_ridge3 <- summary(model_ridge3)
-                            summary_chosen3 <- summary_ridge3$summaries[[summary_ridge3$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
-                            coefficients_chosen3 <- summary_chosen3$coefficients   # 从 chosen_summary 提取 coefficients
-                            coef_chosen3 <- coefficients_chosen3[,1]
-                            se_chosen3 <- coefficients_chosen3[,3][-1]/model_ridge3$scales
+                            sd_Y_list2_inv <- 1/sd_Y_list2 
+                            beta_hat_2 <- sum(sd_Y_list2_inv^2 * b_Y_list2)/sum(sd_Y_list2_inv^2)
+                            #---------------------------------------------------------------Trans_IPW0          31
+                            for (i in 1:p_Zm) {
+                              
+                              model3 <- lm(Y_0~X_hat_matrix_IPW[,i] + C_0 + Z_0m[,i])  #有Z
+                              summary_model3 <- summary(model3)
+                              pval_model3 <- summary_model3$coefficients[,4]
+                              Z_pval <- pval_model3[length(pval_model3)]
+                              
+                              pearson_r <- cor(X_hat_matrix_IPW[,i],Z_0m[,i])
+                              if(indicator_print == 1){
+                                print(paste0(Z_pval,', ',pearson_r))
+                              }
+                              if( (Z_pval <= 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
+                                model_ridge3 <- ridge::linearRidge(Y_0~X_hat_matrix_IPW[,i] + C_0+Z_0m[,i])
+                                summary_ridge3 <- summary(model_ridge3)
+                                summary_chosen3 <- summary_ridge3$summaries[[summary_ridge3$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
+                                coefficients_chosen3 <- summary_chosen3$coefficients   # 从 chosen_summary 提取 coefficients
+                                coef_chosen3 <- coefficients_chosen3[,1]
+                                se_chosen3 <- coefficients_chosen3[,3][-1]/model_ridge3$scales
+                                
+                                b_Y_list3[i] <-coef_chosen3[2]
+                                sd_Y_list3[i] <- se_chosen3[1]
+                              }else{   #无水平多效性：线性回归
+                                model3_1 <- lm(Y_0~X_hat_matrix_IPW[,i] + C_0)  #无Z
+                                b_Y_list3[i] <- model3_1$coefficients[2]
+                                sd_Y_list3[i] <- summary(model3_1)$coefficients[,'Std. Error'][2]
+                              }
+                              
+                            }
+                            b_Y_list3 <- c(b_Y_list3, beta_hat_degrade)
+                            sd_Y_list3 <- c(sd_Y_list3, se_degrade)
                             
-                            b_Y_list3[i] <-coef_chosen3[2]
-                            sd_Y_list3[i] <- se_chosen3[1]
-                          }else{   #无水平多效性：线性回归
-                            model3_1 <- lm(Y_0~X_hat_matrix_IPW[,i] + C_0)  #无Z
-                            b_Y_list3[i] <- model3_1$coefficients[2]
-                            sd_Y_list3[i] <- summary(model3_1)$coefficients[,'Std. Error'][2]
-                          }
-                          
-                        }
-                        sd_Y_list3_inv <- 1/sd_Y_list3 
-                        beta_hat_3 <- sum(sd_Y_list3_inv^2 * b_Y_list3)/sum(sd_Y_list3_inv^2)
-                        #===============================================================Trans_AIPW
-                        X_hat_matrix_AIPW <- AIPW2(Z_0=Z_0,Z_1=Z_1,C_0=C_0,C_1=C_1,X_1=X_1)$X_hat_matrix
-                        #===============================================================Trans_AIPW0          41
-                        for (i in 1:p_Z) {
-                          model4 <- lm(Y_0~X_hat_matrix_AIPW[,i] + C_0+Z_0[,i])  #有Z
-                          summary_model4 <- summary(model4)
-                          pval_model4 <- summary_model4$coefficients[,4]
-                          Z_pval <- pval_model4[length(pval_model4)]
-                          
-                          pearson_r <- cor(X_hat_matrix_AIPW[,i],Z_0[,i])
-                          if(indicator_print == 1){
-                            print(paste0(Z_pval,', ',pearson_r))
-                          }
-                          if( (Z_pval < 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
-                            model_ridge4 <- ridge::linearRidge(Y_0~X_hat_matrix_AIPW[,i] + C_0+Z_0[,i])
-                            summary_ridge4 <- summary(model_ridge4)
-                            summary_chosen4 <- summary_ridge4$summaries[[summary_ridge4$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
-                            coefficients_chosen4 <- summary_chosen4$coefficients   # 从 chosen_summary 提取 coefficients
-                            coef_chosen4 <- coefficients_chosen4[,1]
-                            se_chosen4 <- coefficients_chosen4[,3][-1]/model_ridge4$scales
+                            sd_Y_list3_inv <- 1/sd_Y_list3 
+                            beta_hat_3 <- sum(sd_Y_list3_inv^2 * b_Y_list3)/sum(sd_Y_list3_inv^2)
+                            #---------------------------------------------------------------Trans_AIPW0          41
+                            for (i in 1:p_Zm) {
+                              model4 <- lm(Y_0~X_hat_matrix_AIPW[,i] + C_0 + Z_0m[,i])  #有Z
+                              summary_model4 <- summary(model4)
+                              pval_model4 <- summary_model4$coefficients[,4]
+                              Z_pval <- pval_model4[length(pval_model4)]
+                              
+                              pearson_r <- cor(X_hat_matrix_AIPW[,i],Z_0m[,i])
+                              if(indicator_print == 1){
+                                print(paste0(Z_pval,', ',pearson_r))
+                              }
+                              if( (Z_pval <= 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
+                                model_ridge4 <- ridge::linearRidge(Y_0~X_hat_matrix_AIPW[,i] + C_0+Z_0m[,i])
+                                summary_ridge4 <- summary(model_ridge4)
+                                summary_chosen4 <- summary_ridge4$summaries[[summary_ridge4$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
+                                coefficients_chosen4 <- summary_chosen4$coefficients   # 从 chosen_summary 提取 coefficients
+                                coef_chosen4 <- coefficients_chosen4[,1]
+                                se_chosen4 <- coefficients_chosen4[,3][-1]/model_ridge4$scales
+                                
+                                b_Y_list4[i] <-coef_chosen4[2]
+                                sd_Y_list4[i] <- se_chosen4[1]
+                              }else{   #无水平多效性：线性回归
+                                model4_1 <- lm(Y_0~X_hat_matrix_AIPW[,i] + C_0)  #无Z
+                                b_Y_list4[i] <- model4_1$coefficients[2]
+                                sd_Y_list4[i] <- summary(model4_1)$coefficients[,'Std. Error'][2]
+                              }
+                            }
+                            b_Y_list4 <- c(b_Y_list4, beta_hat_degrade)
+                            sd_Y_list4 <- c(sd_Y_list4, se_degrade)
                             
-                            b_Y_list4[i] <-coef_chosen4[2]
-                            sd_Y_list4[i] <- se_chosen4[1]
-                          }else{   #无水平多效性：线性回归
-                            model4_1 <- lm(Y_0~X_hat_matrix_AIPW[,i] + C_0)  #无Z
-                            b_Y_list4[i] <- model4_1$coefficients[2]
-                            sd_Y_list4[i] <- summary(model4_1)$coefficients[,'Std. Error'][2]
+                            sd_Y_list4_inv <- 1/sd_Y_list4
+                            beta_hat_4 <- sum(sd_Y_list4_inv^2 * b_Y_list4)/sum(sd_Y_list4_inv^2)
                           }
+                        }else{
+                          #===============================================================迁移估计量
+                          #Trans_OR
+                          X_hat_matrix_OR <- Trans_OLS2(Z_0=Z_0,Z_1=Z_1,C_0=C_0,C_1=C_1,X_1=X_1)$X_hat_matrix
+                          #Trans_IPW
+                          X_hat_matrix_IPW <- IPW2(Z_0=Z_0,Z_1=Z_1,C_0=C_0,C_1=C_1,X_1=X_1)$X_hat_matrix
+                          #Trans_AIPW
+                          X_hat_matrix_AIPW <- AIPW2(Z_0=Z_0,Z_1=Z_1,C_0=C_0,C_1=C_1,X_1=X_1
+                                                     )$X_hat_matrix
+                          #---------------------------------------------------------------Trans_OR0         21
+                          for (i in 1:p_Z) {  
+                            model2 <- lm(Y_0~X_hat_matrix_OR[,i] + C_0 + Z_0[,i])  #有Z
+                            summary_model2 <- summary(model2)
+                            pval_model2 <- summary_model2$coefficients[,4]
+                            Z_pval <- pval_model2[length(pval_model2)]
+                            
+                            pearson_r <- abs(cor(X_hat_matrix_OR[,i],Z_0[,i]))
+                            if(indicator_print == 1){
+                              print(paste0(Z_pval,', ',pearson_r))
+                            }
+                            
+                            if( (Z_pval <= 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
+                              model_ridge2 <- ridge::linearRidge(Y_0~X_hat_matrix_OR[,i] + C_0+Z_0[,i])
+                              summary_ridge2 <- summary(model_ridge2)
+                              summary_chosen2 <- summary_ridge2$summaries[[summary_ridge2$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
+                              coefficients_chosen2 <- summary_chosen2$coefficients   # 从 chosen_summary 提取 coefficients
+                              coef_chosen2 <- coefficients_chosen2[,1]
+                              se_chosen2 <- coefficients_chosen2[,3][-1]/model_ridge2$scales
+                              
+                              b_Y_list2[i] <-coef_chosen2[2]
+                              sd_Y_list2[i] <- se_chosen2[1]
+                            }else{   #无水平多效性：线性回归
+                              model2_1 <- lm(Y_0~X_hat_matrix_OR[,i] + C_0)  #无Z
+                              b_Y_list2[i] <- model2_1$coefficients[2]
+                              sd_Y_list2[i] <- summary(model2_1)$coefficients[,'Std. Error'][2]
+                            }
+                            
+                          }
+                          # cor(X_hat_matrix_OR[,1],Z_0[,1])
+                          sd_Y_list2_inv <- 1/sd_Y_list2 
+                          beta_hat_2 <- sum(sd_Y_list2_inv^2 * b_Y_list2)/sum(sd_Y_list2_inv^2)
+                          #---------------------------------------------------------------Trans_IPW0          31
+                          for (i in 1:p_Z) {
+                            
+                            model3 <- lm(Y_0~X_hat_matrix_IPW[,i] + C_0 + Z_0[,i])  #有Z
+                            summary_model3 <- summary(model3)
+                            pval_model3 <- summary_model3$coefficients[,4]
+                            Z_pval <- pval_model3[length(pval_model3)]
+                            
+                            pearson_r <- cor(X_hat_matrix_IPW[,i],Z_0[,i])
+                            if(indicator_print == 1){
+                              print(paste0(Z_pval,', ',pearson_r))
+                            }
+                            if( (Z_pval <= 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
+                              model_ridge3 <- ridge::linearRidge(Y_0~X_hat_matrix_IPW[,i] + C_0+Z_0[,i])
+                              summary_ridge3 <- summary(model_ridge3)
+                              summary_chosen3 <- summary_ridge3$summaries[[summary_ridge3$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
+                              coefficients_chosen3 <- summary_chosen3$coefficients   # 从 chosen_summary 提取 coefficients
+                              coef_chosen3 <- coefficients_chosen3[,1]
+                              se_chosen3 <- coefficients_chosen3[,3][-1]/model_ridge3$scales
+                              
+                              b_Y_list3[i] <-coef_chosen3[2]
+                              sd_Y_list3[i] <- se_chosen3[1]
+                            }else{   #无水平多效性：线性回归
+                              model3_1 <- lm(Y_0~X_hat_matrix_IPW[,i] + C_0)  #无Z
+                              b_Y_list3[i] <- model3_1$coefficients[2]
+                              sd_Y_list3[i] <- summary(model3_1)$coefficients[,'Std. Error'][2]
+                            }
+                            
+                          }
+                          sd_Y_list3_inv <- 1/sd_Y_list3 
+                          beta_hat_3 <- sum(sd_Y_list3_inv^2 * b_Y_list3)/sum(sd_Y_list3_inv^2)
+                          #---------------------------------------------------------------Trans_AIPW0          41
+                          for (i in 1:p_Z) {
+                            model4 <- lm(Y_0~X_hat_matrix_AIPW[,i] + C_0 + Z_0[,i])  #有Z
+                            summary_model4 <- summary(model4)
+                            pval_model4 <- summary_model4$coefficients[,4]
+                            Z_pval <- pval_model4[length(pval_model4)]
+                            
+                            pearson_r <- cor(X_hat_matrix_AIPW[,i],Z_0[,i])
+                            if(indicator_print == 1){
+                              print(paste0(Z_pval,', ',pearson_r))
+                            }
+                            if( (Z_pval <= 0.05) & (pearson_r < 0.7) ){    #有水平多效性：岭回归
+                              model_ridge4 <- ridge::linearRidge(Y_0~X_hat_matrix_AIPW[,i] + C_0+Z_0[,i])
+                              summary_ridge4 <- summary(model_ridge4)
+                              summary_chosen4 <- summary_ridge4$summaries[[summary_ridge4$chosen.nPCs]]   # 提取选择的 nPCs 对应的 summary
+                              coefficients_chosen4 <- summary_chosen4$coefficients   # 从 chosen_summary 提取 coefficients
+                              coef_chosen4 <- coefficients_chosen4[,1]
+                              se_chosen4 <- coefficients_chosen4[,3][-1]/model_ridge4$scales
+                              
+                              b_Y_list4[i] <-coef_chosen4[2]
+                              sd_Y_list4[i] <- se_chosen4[1]
+                            }else{   #无水平多效性：线性回归
+                              model4_1 <- lm(Y_0~X_hat_matrix_AIPW[,i] + C_0)  #无Z
+                              b_Y_list4[i] <- model4_1$coefficients[2]
+                              sd_Y_list4[i] <- summary(model4_1)$coefficients[,'Std. Error'][2]
+                            }
+                          }
+                          sd_Y_list4_inv <- 1/sd_Y_list4
+                          beta_hat_4 <- sum(sd_Y_list4_inv^2 * b_Y_list4)/sum(sd_Y_list4_inv^2)
                         }
-                        sd_Y_list4_inv <- 1/sd_Y_list4
-                        beta_hat_4 <- sum(sd_Y_list4_inv^2 * b_Y_list4)/sum(sd_Y_list4_inv^2)
+                        
                         #----------------------------结果保存
                         beta_hat_vec <- c(beta_hat_1, beta_hat_2, beta_hat_3,beta_hat_4)
                         p_vec <- c(beta_hat_1_list$p,rep(NA,len_methods-8))
@@ -472,7 +614,17 @@ for(i_n0 in 1:len_n0){
                       })
                       
                     }
+                  gc()
+                  #-----------------由于内存问题，部分结果可能计算不出来
+                  indice_errorbyRAM <- sapply(beta_hat_ite, is.null)
+                  indice_noerrorbyRAM <- !indice_errorbyRAM
+                  index_noerrorbyRAM <- c(1:length(indice_noerrorbyRAM))[indice_noerrorbyRAM]
+                  num_effect_ites <- length(index_noerrorbyRAM)
                   
+                  beta_hat_ite <- beta_hat_ite[indice_noerrorbyRAM]
+                  #---
+                  param_df <- param_df[param_df[[1]] %in% index_noerrorbyRAM, ]
+                  param_df2[[1]] <- num_effect_ites
                   # 结果保存
                   #+++++++++++++++ 1
                   ite_return <- do.call(rbind,beta_hat_ite)
@@ -549,3 +701,4 @@ write.csv(save_df2,file=paste(path_output_tables, '/statistics_all_',date_mark,'
 # time_end <- Sys.time()
 # time_consume <- difftime(time_end,time_start)
 # time_consume 
+stopImplicitCluster()

@@ -1,7 +1,7 @@
 time_start <- Sys.time()
 #---
 setwd("C:/Users/Administrator/Desktop/WY/R_codes/Trans_MR_project")
-ver <- 'v2'  #版本
+ver <- 'v5'  #版本
 date_mark <- format(Sys.time(), "%Y-%m-%d")
 #===============================================================================结果存放位置
 path_output_plots <- paste0('output/continuous/plots','/',date_mark,'-',ver)
