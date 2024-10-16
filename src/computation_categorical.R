@@ -96,7 +96,7 @@ k_min <- 1
 k_pz <- 1
 p_Z_fix <- p_Z_list[k_pz]
 k_gamma <- 1
-k_gamma2 <-length(gamma_list)
+k_gamma2 <-1#length(gamma_list)
 k_alpha <- 1
 k_alpha2 <- 2
 k_heter <- len_heter

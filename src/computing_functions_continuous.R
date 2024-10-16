@@ -47,16 +47,19 @@ Twosamle_package3 <- function(p_Z,p_C,data_0,data_1){
   #------------
   data_merge2 <- MendelianRandomization::mr_input(bx=data_merge$beta.exposure,bxse = data_merge$se.exposure
                                                   ,by=data_merge$beta.outcome,byse = data_merge$se.outcome)
-  num_ivs <- length(data_merge2@snps)
-  if(num_ivs<3){
-    res <- MendelianRandomization::mr_ivw(data_merge2)
-    beta <- res@Estimate
-    se <- res@StdError
-  }else{
-    res <- MendelianRandomization::mr_egger(data_merge2)
-    beta <- res@Estimate
-    se <- res@StdError.Est
-  }
+  # num_ivs <- length(data_merge2@snps)
+  # if(num_ivs<3){
+  #   res <- MendelianRandomization::mr_ivw(data_merge2)
+  #   beta <- res@Estimate
+  #   se <- res@StdError
+  # }else{
+  #   res <- MendelianRandomization::mr_egger(data_merge2)
+  #   beta <- res@Estimate
+  #   se <- res@StdError.Est
+  # }
+  res <- MendelianRandomization::mr_cML(data_merge2,n=n_0)
+  beta <- res@Estimate
+  se <- res@StdError
   
   return_list <- list(beta=beta,se=se)
   return(return_list)

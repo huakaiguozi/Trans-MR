@@ -41,7 +41,7 @@ ratio_pleiotropy <- c(1.0)
 # heter_level_list <- c(0.3)
 # ratio_inter_list <- c(0.6)
 
-ite_times <- 100   #预计10.00结束（21.55开始）
+ite_times <- 5   #预计10.00结束（21.55开始）
 #date_mark <- format(Sys.time(), "%Y-%m-%d")
 
 #----Twosamplemr包方法
@@ -98,7 +98,7 @@ k_min <- 1
 k_pz <- 1
 p_Z_fix <- p_Z_list[k_pz]
 k_gamma <- 1
-k_gamma2 <- length(gamma_list) 
+k_gamma2 <- 1#length(gamma_list) 
 k_alpha <- 1
 k_alpha2 <- 2
 k_heter <- len_heter
